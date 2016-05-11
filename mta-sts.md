@@ -220,17 +220,15 @@ Policies MUST specify the following fields in JSON format:
   this domain. For example, "*.example.com,*.example.net" indicates that mail
   for this domain might be handled by any MX whose hostname is a subdomain of
   "example.com" or "example.net."
-* _max-age_: Max lifetime of the policy (plain-text integer seconds). Well-behaved
-  clients SHOULD cache a policy for up to this value from last policy fetch
-  time.
-* _policy_id_: A short string used to track policy updates. This string MUST
-  uniquely identify a given instance of a policy, such that senders can
-  determine when the policy has been updated by comparing to the `policy_id` of
-  a previously seen policy.
+* _max-age_: Max lifetime of the policy (plain-text integer seconds, required).
+  Well-behaved clients SHOULD cache a policy for up to this value from last
+  policy fetch time.
+* _policy_id_: (plain-text, required) A short string used to track policy
+  updates. This string MUST uniquely identify a given instance of a policy, such
+  that senders can determine when the policy has been updated by comparing to
+  the `policy_id` of a previously seen policy.
 
 ## Formal Definition
-
-**TODO: This no longer aligns with policy**
 
 The formal definition of the SMTP STS format, using [@!RFC5234], is as follows:
 
@@ -260,10 +258,10 @@ The formal definition of the SMTP STS format, using [@!RFC5234], is as follows:
 
     domain-match    =  ["*."] 1*dtext *("." 1*dtext)
 
-    dtext           =  %d30-39 /          ; 0-9
-                       %d41-5A /          ; a-z
-                       %61-7A /           ; A-Z
-                       %2D                ; "-"
+    dtext           =  %x30-%x39 /        ; 0-9
+                       %x41-%x5A /        ; A-Z
+                       %x61-%x7A /        ; a-z
+                       %x2D               ; "-"
 
     sts-max-age     = "max-age" *WSP "=" *WSP 1*10DIGIT
 
